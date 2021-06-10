@@ -6,8 +6,11 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.example.encoratask.dummy.DummyContent
+import com.example.encoratask.model.Character
 
 /**
  * A fragment representing a single Item detail screen.
@@ -20,18 +23,18 @@ class ItemDetailFragment : Fragment() {
     /**
      * The dummy content this fragment is presenting.
      */
-    private var item: DummyContent.DummyItem? = null
+    private var item: Character? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            if (it.containsKey(ARG_ITEM_ID)) {
-                // Load the dummy content specified by the fragment
-                // arguments. In a real-world scenario, use a Loader
-                // to load content from a content provider.
-                item = DummyContent.ITEM_MAP[it.getString(ARG_ITEM_ID)]
-                activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title = item?.content
+            if (it.containsKey(ARG_ITEM)) {
+                item = it.getSerializable(ARG_ITEM) as Character?
+
+                val imageHeader: ImageView? = activity?.findViewById(R.id.bgHeader)
+                Glide.with(this).load(item?.image).into(imageHeader!!)
+                activity?.findViewById<CollapsingToolbarLayout>(R.id.toolbar_layout)?.title = item?.name
             }
         }
     }
@@ -42,17 +45,13 @@ class ItemDetailFragment : Fragment() {
 
         // Show the dummy content as text in a TextView.
         item?.let {
-            rootView.findViewById<TextView>(R.id.item_detail).text = it.details
+            rootView.findViewById<TextView>(R.id.item_detail).text = it.name
         }
 
         return rootView
     }
 
     companion object {
-        /**
-         * The fragment argument representing the item ID that this fragment
-         * represents.
-         */
-        const val ARG_ITEM_ID = "item_id"
+        const val ARG_ITEM = "item"
     }
 }
