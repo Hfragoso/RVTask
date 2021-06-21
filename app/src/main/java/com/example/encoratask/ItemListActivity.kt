@@ -11,9 +11,15 @@ import com.google.android.material.snackbar.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 
 import com.example.encoratask.dummy.DummyContent
+import com.example.encoratask.model.Character
+import com.example.encoratask.vm.BaseViewModel
+import com.squareup.picasso.Picasso
 
 /**
  * An activity representing a list of Pings. This activity
@@ -23,16 +29,23 @@ import com.example.encoratask.dummy.DummyContent
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
+
+
+
 class ItemListActivity : AppCompatActivity() {
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
+    private lateinit var viewModel: BaseViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
+        viewModel = ViewModelProvider(this).get(BaseViewModel::class.java)
+        BaseApplication.getAppComponent().inject(viewModel)
+        viewModel.getItems()
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -43,23 +56,27 @@ class ItemListActivity : AppCompatActivity() {
                     .setAction("Action", null).show()
         }
 
-        setupRecyclerView(findViewById(R.id.item_list))
+
+        viewModel.listCharacter.observe(this, Observer {
+            setupRecyclerView(findViewById(R.id.item_list), it)
+        })
     }
 
-    private fun setupRecyclerView(recyclerView: RecyclerView) {
-        recyclerView.adapter = SimpleItemRecyclerViewAdapter(DummyContent.ITEMS)
+    private fun setupRecyclerView(recyclerView: RecyclerView, list: List<Character>) {
+        recyclerView.adapter = SimpleItemRecyclerViewAdapter(list)
     }
 
-    class SimpleItemRecyclerViewAdapter(private val values: List<DummyContent.DummyItem>) :
+    class SimpleItemRecyclerViewAdapter(private val values: List<Character>) :
             RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
 
         private val onClickListener: View.OnClickListener
 
         init {
             onClickListener = View.OnClickListener { v ->
-                val item = v.tag as DummyContent.DummyItem
+                val item = v.tag as Character
                 val intent = Intent(v.context, ItemDetailActivity::class.java).apply {
-                    putExtra(ItemDetailFragment.ARG_ITEM_ID, item.id)
+                    putExtra("NAME", item.name)
+                    putExtra("GENDER", item.gender)
                 }
                 v.context.startActivity(intent)
             }
@@ -73,8 +90,9 @@ class ItemListActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val item = values[position]
-            holder.idView.text = item.id
-            holder.contentView.text = item.content
+            Picasso.get().load(item.image).into(holder.img)
+            holder.idView.text = item.name
+            //holder.contentView.text = item.gender
 
             with(holder.itemView) {
                 tag = item
@@ -85,6 +103,7 @@ class ItemListActivity : AppCompatActivity() {
         override fun getItemCount() = values.size
 
         inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+            val img: ImageView = view.findViewById(R.id.img_src)
             val idView: TextView = view.findViewById(R.id.id_text)
             val contentView: TextView = view.findViewById(R.id.content)
         }

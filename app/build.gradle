@@ -20,6 +20,11 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions { jvmTarget = "1.8" }
 
     buildTypes {
         release {
@@ -42,14 +47,14 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     // Retrofit
-//    implementation 'com.squareup.retrofit2:retrofit:+'
-//    implementation "com.squareup.retrofit2:converter-gson:+"
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
 
     // Volley
 //    implementation 'com.android.volley:volley:+'
 
     // Picasso
-//    implementation 'com.squareup.picasso:picasso:+'
+    implementation 'com.squareup.picasso:picasso:+'
 
     // Glide
 //    implementation 'com.github.bumptech.glide:glide:+'
@@ -59,28 +64,32 @@ dependencies {
 //    implementation "androidx.core:core-ktx:+"
 
     // Coroutines
-//    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:+"
-//    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:+"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:+"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:+"
 
     // Dagger
-//    implementation 'com.google.dagger:dagger:+'
-//    kapt 'com.google.dagger:dagger-compiler:+'
+    implementation 'com.google.dagger:dagger:+'
+    kapt 'com.google.dagger:dagger-compiler:+'
 
     // LiveData
-//    implementation "androidx.lifecycle:lifecycle-livedata-ktx:+"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:+"
 
     // ViewModel
-//    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:+"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:+"
 
     // Constraint Layout
 //    implementation "androidx.constraintlayout:constraintlayout:+"
 
     // Gson
-//    implementation "com.google.code.gson:gson:+"
+    implementation "com.google.code.gson:gson:+"
 
     // Hilt
 //    kapt "com.google.dagger:hilt-android-compiler:+"
 //    kapt "androidx.hilt:hilt-compiler:+"
 //    implementation "com.google.dagger:hilt-android:+"
 //    implementation "androidx.hilt:hilt-lifecycle-viewmodel:+"
+
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.0'
+    implementation "com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0"
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
 }
