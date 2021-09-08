@@ -27,6 +27,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
@@ -42,8 +51,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     // Retrofit
-//    implementation 'com.squareup.retrofit2:retrofit:+'
-//    implementation "com.squareup.retrofit2:converter-gson:+"
+    implementation 'com.squareup.retrofit2:retrofit:+'
+    implementation "com.squareup.retrofit2:converter-gson:+"
 
     // Volley
 //    implementation 'com.android.volley:volley:+'
@@ -52,11 +61,11 @@ dependencies {
 //    implementation 'com.squareup.picasso:picasso:+'
 
     // Glide
-//    implementation 'com.github.bumptech.glide:glide:+'
-//    annotationProcessor 'com.github.bumptech.glide:compiler:+'
+    implementation 'com.github.bumptech.glide:glide:+'
+    annotationProcessor 'com.github.bumptech.glide:compiler:+'
 
     // Android ktx
-//    implementation "androidx.core:core-ktx:+"
+    implementation "androidx.core:core-ktx:1.1.0"
 
     // Coroutines
 //    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:+"
@@ -67,16 +76,17 @@ dependencies {
 //    kapt 'com.google.dagger:dagger-compiler:+'
 
     // LiveData
-//    implementation "androidx.lifecycle:lifecycle-livedata-ktx:+"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.2.0"
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
     // ViewModel
-//    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:+"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
 
     // Constraint Layout
 //    implementation "androidx.constraintlayout:constraintlayout:+"
 
     // Gson
-//    implementation "com.google.code.gson:gson:+"
+    implementation "com.google.code.gson:gson:+"
 
     // Hilt
 //    kapt "com.google.dagger:hilt-android-compiler:+"
